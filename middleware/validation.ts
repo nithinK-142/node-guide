@@ -1,14 +1,19 @@
 import { Request, Response, NextFunction } from "express";
-import { ObjectSchema } from "yup";
+import { z, ZodSchema } from "zod";
+import { UserData } from "../validation/user";
 
 export const validation =
-  (schema: ObjectSchema<any>) =>
+  (schema: ZodSchema<UserData>) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    const body = req.body;
     try {
-      await schema.validate(body);
+      const parseBody = await schema.parseAsync(req.body);
+      req.body = parseBody;
       next();
-    } catch (error) {
-      return res.status(400).json({ error });
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const errorMessages = err.issues.map((msg) => msg.message);
+        console.log(errorMessages);
+        return res.status(400).json({ errorMessages });
+      }
     }
   };

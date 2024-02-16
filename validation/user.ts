@@ -1,13 +1,18 @@
-import { ObjectSchema, object, string } from "yup";
+import { z } from "zod";
 
-export const userSchema: ObjectSchema<UserSchemaType> = object().shape({
-  name: string().min(4).required(),
-  email: string().email("Enter a valid email!").required(),
-  password: string().min(4).max(10).required(),
-});
+export const userSchema = z
+  .object({
+    name: z.string().min(3, "Name's too short!").max(30, "Name's too long!"),
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(4, "Password's too short!")
+      .max(10, "Password's too long!"),
+    repeatPassword: z.string(),
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: "Passwords do not match!",
+    path: ["repeatPassword"],
+  });
 
-export type UserSchemaType = {
-  name: string;
-  email: string;
-  password: string;
-};
+export type UserData = z.infer<typeof userSchema>;
