@@ -1,5 +1,5 @@
 import express, { json, Request, Response } from "express";
-import { handleFaviconRequest } from "../middleware/handleFaviconRequest";
+import { handleFaviconRequest } from "./middleware/handleFaviconRequest";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
