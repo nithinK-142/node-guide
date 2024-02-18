@@ -1,10 +1,18 @@
 import express, { json, Request, Response } from "express";
+import cors from "cors";
 import { handleFaviconRequest } from "./middleware/handleFaviconRequest";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(json());
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET"],
+  })
+);
 
 app.use(handleFaviconRequest);
 
