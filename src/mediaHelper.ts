@@ -1,10 +1,15 @@
+interface TVShow {
+  name: string;
+  premiered: string;
+}
+
 export async function fetchShows(): Promise<string[]> {
   try {
     const response = await fetch("http://api.tvmaze.com/shows");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const shows = await response.json();
+    const shows: TVShow[] = (await response.json()) as TVShow[];
 
     const sorted = shows.sort(
       (a: { premiered: string }, b: { premiered: string }) =>
