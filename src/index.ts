@@ -1,7 +1,7 @@
 import express, { json, Request, Response } from "express";
-import { handleFaviconRequest } from "../middleware/handleFaviconRequest";
-import { validation } from "../middleware/validation";
-import { userSchema } from "../validation/user";
+import { handleFaviconRequest } from "./middleware/handleFaviconRequest";
+import { validation } from "./middleware/validation";
+import { userSchema } from "./validation/user";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
