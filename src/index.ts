@@ -20,15 +20,21 @@ app.use(handleFaviconRequest);
 app.get("/", async (_req: Request, res: Response) => {
   try {
     const apiResponse = await axios.get(
-      "https://api-branch.vercel.app/node-guide"
+      "https://api-branch.vercel.app/node-guide?links=true"
     );
-    res.status(200).json({
+
+    const branches = apiResponse.data.map((item: any) => ({
+      branch: item.branch,
+      link: item.link,
+    }));
+
+    return res.status(200).json({
       message: "NodeJs Guide",
-      branches: apiResponse.data,
+      branches: branches,
     });
   } catch (error) {
     console.error("Error making API call:", error);
-    res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
