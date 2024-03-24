@@ -1,4 +1,4 @@
-import express, { json, Request, Response } from "express";
+import express, { json, type Request, type Response } from "express";
 import cors from "cors";
 import { handleFaviconRequest } from "./middleware/handleFaviconRequest";
 import axios from "axios";
