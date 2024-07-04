@@ -15,7 +15,9 @@ interface MappedBranch {
 
 router.get("/", async (_req: Request, res: Response) => {
   try {
-    const apiResponse = await axios.get<Branch[]>(process.env.API_BRANCH_URL!);
+    const apiResponse = await axios.get<Branch[]>(
+      process.env.BRANCH_SENTINEL_URL!
+    );
 
     const branches: MappedBranch[] = apiResponse.data.map((item: Branch) => ({
       branchName: `https://github.com/nithinK-142/node-guide/tree/${item.branchName}`,
